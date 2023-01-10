@@ -5,9 +5,9 @@ from collections import defaultdict
 
 from .extract import find_dois, annotate_dois
 
-BOT_INTRO = """<p>👋 I noticed that your post linked to {count} closed access article{plural}.</p>"""
+BOT_INTRO = """👋 I noticed that your post linked to {count} closed access article{plural}."""
 BOT_SINGLE = (
-    """<p>Here's an open access {type} of {citation}: <a href="{url}">{url}</a></p>."""
+    """Here's an open access {type} of {citation}: {url}"""
 )
 
 
@@ -35,7 +35,7 @@ def format_citation(annotated: dict):
         authors = ", ".join(annotated["authors"][:3]) + " et al."
     else:
         authors = ", ".join(annotated["authors"])
-    return f"{authors} ({annotated['year']}). &ldquo;{annotated['title']}&rdquo;. <i>{annotated['journal']}</i>."
+    return f"{authors} ({annotated['year']}). “{annotated['title']}”. {annotated['journal']}."
 
 
 def create_single_reply(annotated: dict):
@@ -66,13 +66,13 @@ def create_multiple_replies(annotated: dict):
     }
     count = counts[len(annotated)] if len(annotated) <= 12 else str(len(annotated))
     reply_text = BOT_INTRO.format(count=count, plural="s")
-    reply_text += f"<p>See the replies below 👇<p><p>1/{len(annotated)+1}</p>"
+    reply_text += f"See the replies below 👇\n\n1/{len(annotated)+1}"
     replies.append(reply_text)
     for idx, a in enumerate(annotated):
         citation = format_citation(a)
         reply_text = BOT_SINGLE.format(
             type=a["oa_type"], citation=citation, url=a["oa_url"]
         )
-        reply_text += f"<p>{idx + 2}/{len(annotated)+1}</p>"
+        reply_text += f"\n\n{idx + 2}/{len(annotated)+1}"
         replies.append(reply_text)
     return replies
