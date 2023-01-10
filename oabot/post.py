@@ -66,7 +66,7 @@ def create_multiple_replies(annotated: dict):
     }
     count = counts[len(annotated)] if len(annotated) <= 12 else str(len(annotated))
     reply_text = BOT_INTRO.format(count=count, plural="s")
-    reply_text += f"See the replies below 👇\n\n1/{len(annotated)+1}"
+    reply_text += f"See the replies below for open-access versions 👇\n\n1/{len(annotated)+1}"
     replies.append(reply_text)
     for idx, a in enumerate(annotated):
         citation = format_citation(a)
