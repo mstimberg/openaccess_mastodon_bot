@@ -1,8 +1,5 @@
 import sys
 
-# Quick and dirty path fiddling
-sys.path.insert(0, ".")
-
 from oabot.extract import EMAIL
 from oabot.post import create_replies
 

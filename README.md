@@ -1,19 +1,54 @@
-Work-in-progress
+# Open-access mastodon bot
+
+**Work-in-progress, do not use**
 
 A Mastodon bot to reply to threads mention closed access URLs to papers with
 open access alternatives.
 
 Created for https://neuromatch.social
 
-Does not yet work as a bot, but can manually create replies for Mastodon posts.
-
 Relies on https://unpaywall.org and https://www.crossref.org
 
-Install dependencies with:
+Install with (if not using the docker container below):
 ```
-pip install -r requirements.txt
+pip install .
+```
+## Running the bot for local testing
+
+Run your local Mastodon instance, e.g. by installing latest versions of vagrant and VirtualBox, and then:
+```
+$ vagrant up
+$ vagrant ssh -c "cd /vagrant && foreman start" 
 ```
 
+On your instance, add a new account for the bot and create a new application for it.
+
+Put the *access token* into an environment variable `MASTO_TOKEN`, and your email address into `EMAIL` (for "polite" access to the APIs).
+
+### Running with Docker
+Build the docker container in this repo:
+```
+$ docker build -t mastodon_bot .
+```
+
+Start the docker container to run the bot
+```
+$ docker run docker run --network host -e MASTO_TOKEN -e EMAIL mastodon_bot
+```
+
+### Running without Docker
+
+Start the bot with
+```
+$ python -m oabot
+```
+
+### Function
+
+Now, if you follow the bot account, it should follow you back.
+If you post a status with a closed access URL in it, it will reply with an open access version (if it can find one).
+
+## Basic testing
 Run tests:
 ```
 pytest oabot/tests

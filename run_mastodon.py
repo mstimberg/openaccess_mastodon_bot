@@ -1,9 +1,5 @@
 import sys
 
-# Quick and dirty path fiddling
-sys.path.insert(0, ".")
-import logging
-
 from mastodon import Mastodon
 
 from oabot.post import create_replies
